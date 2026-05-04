@@ -42,10 +42,16 @@
       <artifactId>jakarta.persistence-api</artifactId>
       <scope>provided</scope>
     </dependency>
+
     <!--    <dependency>
       <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-core</artifactId>
     </dependency>-->
+    <dependency>
+      <groupId>jakarta.inject</groupId>
+      <artifactId>jakarta.inject-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <build>
