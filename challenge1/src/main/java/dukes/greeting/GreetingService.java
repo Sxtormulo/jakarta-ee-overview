@@ -1,19 +1,39 @@
 package dukes.greeting;
 
-// The GreetingService should be a Stateless session bean
-// Hint: Check out the @Stateless annotation
-public class GreetingService {
+import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
+
+import module java.base;
+import java.lang.System.Logger;
+
+import static java.lang.System.Logger.Level.WARNING;
+
+@Stateless
+public class GreetingService
+{
+
+    @Inject
+    private GreetingRepository greetingRepository;
 
     /**
-     * Helpful documentation:
-     * https://jakarta.ee/specifications/platform/10/apidocs/jakarta/ejb/stateless
-     * https://jakarta.ee/specifications/platform/10/apidocs/jakarta/inject/package-summary.html
-     * https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/package-summary.html
+     * Get a Greeting instance
+     *
+     * @return the first Greeting find
      */
+    public Greeting findFirstGreeting()
+    {
 
-    // inject the GreetingRepository
-
-    // Create a method that calls the GreetingRepository to find all greetings and chooses the first one
-    // If no greetings are returned from the repository, return a hard coded one with the text "Hello, World!"
+        try
+        {
+            return greetingRepository.findAll().getFirst();
+        }
+        catch(NoSuchElementException elementException)
+        {
+            logger.log(WARNING, "No greeting found. Using default Greeting");
+            return new Greeting("Hello, Wordl!");
+        }
+    }
+    private static final Logger logger = System.getLogger(GreetingService.class
+        .getName());
 
 }
