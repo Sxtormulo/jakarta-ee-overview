@@ -27,6 +27,27 @@ public class Greeting implements Serializable
     private String message;
 
     /**
+     * Construct a new greeting
+     *
+     * @param message the message of the greeting
+     */
+    public Greeting(String message)
+    {
+        this.message = message;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if(this == obj) return true;
+        if(obj == null) return false;
+        if(getClass() != obj.getClass()) return false;
+        final Greeting other = (Greeting) obj;
+        if(!Objects.equals(this.message, other.message)) return false;
+        return Objects.equals(this.id, other.id);
+    }
+
+    /**
      * Get the id of the current instance
      *
      * @return the current id
@@ -68,12 +89,6 @@ public class Greeting implements Serializable
     }
 
     @Override
-    public String toString()
-    {
-        return "Greeting{" + "id=" + id + ", message=" + message + '}';
-    }
-
-    @Override
     public int hashCode()
     {
         int hash = 7;
@@ -83,14 +98,9 @@ public class Greeting implements Serializable
     }
 
     @Override
-    public boolean equals(Object obj)
+    public String toString()
     {
-        if(this == obj) return true;
-        if(obj == null) return false;
-        if(getClass() != obj.getClass()) return false;
-        final Greeting other = (Greeting) obj;
-        if(!Objects.equals(this.message, other.message)) return false;
-        return Objects.equals(this.id, other.id);
+        return "Greeting{" + "id=" + id + ", message=" + message + '}';
     }
 
 }
