@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.UUID;
 
 @Cacheable(false)
@@ -60,4 +61,31 @@ public class Greeting implements Serializable
     {
         this.message = message;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Greeting{" + "id=" + id + ", message=" + message + '}';
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.id);
+        hash = 37 * hash + Objects.hashCode(this.message);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if(this == obj) return true;
+        if(obj == null) return false;
+        if(getClass() != obj.getClass()) return false;
+        final Greeting other = (Greeting) obj;
+        if(!Objects.equals(this.message, other.message)) return false;
+        return Objects.equals(this.id, other.id);
+    }
+
 }
