@@ -9,6 +9,11 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Greating class that contains a gretting message
+ *
+ * @author Sxtormulo
+ */
 @Cacheable(false)
 public class Greeting implements Serializable
 {
