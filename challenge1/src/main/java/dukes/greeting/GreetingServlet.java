@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 
+/** Produce GreetingServel responses */
 @WebServlet("/greeting")
 public class GreetingServlet extends HttpServlet
 {
