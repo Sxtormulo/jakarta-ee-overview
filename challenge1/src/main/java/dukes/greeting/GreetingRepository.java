@@ -1,33 +1,26 @@
 package dukes.greeting;
 
-// Give the repository an appropriate CDI scope. Hint: You can also use the pseudo-scope @Dependent
+import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.metamodel.EntityType;
+
+import static java.lang.System.Logger;
+import static java.lang.System.Logger.Level.DEBUG;
 
 import module java.base;
-import java.lang.System.Logger;
 
-import static java.lang.System.Logger.Level.INFO;
-
+/** Manage the interaction with the greeting repository that provide persistence */
+@Dependent
 public class GreetingRepository
 {
 
     private static final Logger LOG =
         System.getLogger(GreetingRepository.class.getName());
 
-    /**
-     * Helpful documentation:
-     * https://jakarta.ee/specifications/platform/10/apidocs/jakarta/persistence/entitymanager
-     */
+    /** Get the Greetings unit from the Persistence Provider */
     @PersistenceContext(unitName = "Greetings")
     private EntityManager em;
-    // Create a method that retrieves all greetings from the database. Return type should be List<Greeting>
 
-    // Hint: Check out the Criteria Language for building queries
-    // CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-    // cq.select(cq.from(Greeting.class));
-    // return em.createQuery(cq).getResultList();
     /**
      * Get all Greetings from the persistence provider
      *
@@ -35,11 +28,10 @@ public class GreetingRepository
      */
     public List<Greeting> findAll()
     {
-        LOG.log(INFO, "Getting all Greetigs");
-        final var criteriaBuilder = em.getCriteriaBuilder();
-        final var greetingQuery = criteriaBuilder.createQuery(Greeting.class);
-        final EntityType<Greeting> Greeting_ = em.getMetamodel().entity(Greeting.class);
-        greetingQuery.select(greetingQuery.from(Greeting_));
+        LOG.log(DEBUG, "Getting all Greetigs");
+
+        final var greetingQuery = em.getCriteriaBuilder().createQuery(Greeting.class);
+        greetingQuery.select(greetingQuery.from(Greeting.class));
         return em.createQuery(greetingQuery).getResultList();
 
     }
