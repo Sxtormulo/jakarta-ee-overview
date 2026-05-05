@@ -2,16 +2,18 @@ package dukes.greeting;
 
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
-
-import module java.base;
 import java.lang.System.Logger;
 
-import static java.lang.System.Logger.Level.WARNING;
+import static java.lang.System.Logger.Level.DEBUG;
 
+/** Provide a greeting service that return a {@link Greeting} instance */
 @Stateless
 public class GreetingService
 {
 
+    private static final Logger logger = System.getLogger(GreetingService.class
+        .getName());
+    /** Get a {@code GreetingRepository} by CDI */
     @Inject
     private GreetingRepository greetingRepository;
 
@@ -22,18 +24,11 @@ public class GreetingService
      */
     public Greeting findFirstGreeting()
     {
-
-        try
+        return greetingRepository.findAll().stream().findFirst().orElseGet(() ->
         {
-            return greetingRepository.findAll().getFirst();
-        }
-        catch(NoSuchElementException elementException)
-        {
-            logger.log(WARNING, "No greeting found. Using default Greeting");
-            return new Greeting("Hello, Wordl!");
-        }
+            logger.log(DEBUG, () -> "Returning default object");
+            return new Greeting("Hello, world!");
+        });
     }
-    private static final Logger logger = System.getLogger(GreetingService.class
-        .getName());
 
 }
