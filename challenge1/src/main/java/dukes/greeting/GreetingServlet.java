@@ -1,23 +1,41 @@
 package dukes.greeting;
 
-// The GreetingServlet should be an HttpServlet
-// Hint: Check the @WebServlet annotation, URL pattern for the servlet should be "/greeting"
-// Hint: extend HttpServlet
-public class GreetingServlet {
+import jakarta.ejb.EJB;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
+
+@WebServlet("/greeting")
+public class GreetingServlet extends HttpServlet
+{
+
+    private static final Logger logger = System.getLogger(GreetingServlet.class
+        .getName());
+    /** Greeting Enterprise Bean to get greetings */
+    @EJB
+    private GreetingService greetingService;
 
     /**
-     * Helpful documentation:
+     * Serve a Get response with message
      *
-     * https://jakarta.ee/specifications/platform/10/apidocs/jakarta/servlet/annotation/webservlet
-     * https://jakarta.ee/specifications/platform/10/apidocs/jakarta/servlet/http/httpservlet
-     * https://jakarta.ee/specifications/platform/10/apidocs/jakarta/servlet/http/httpservletrequest
-     * https://jakarta.ee/specifications/platform/10/apidocs/jakarta/servlet/http/httpservletresponse
+     * @param req  the user request
+     * @param resp the response message
      */
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+    {
+        try(var writer = resp.getWriter())
+        {
+            writer.println(greetingService.findFirstGreeting().getMessage());
+        }
+        catch(IOException ex)
+        {
+            logger.log(Level.ERROR, ex.getMessage(), ex);
+        }
+    }
 
-    // Inject the GreetingService EJB
-    // Hint: Check out the @EJB annotation
-
-    // override the doGet method from HttpServlet
-    // get the message from the greeting and display it
-    // Hint: resp.getWriter().println("text");
 }
