@@ -3,7 +3,7 @@
   <persistence-unit name="Greetings" transaction-type="JTA">
     <!--transaction-type="JTA"-->
     <!--        <jta-data-source>java:comp/DefaultDataSource</jta-data-source>-->
-    <jta-data-source>java:openejb/jdbc/JakartaDB</jta-data-source>
+    <jta-data-source>java:comp/jdbc/JakartaDB</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
