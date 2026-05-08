@@ -1,24 +1,51 @@
 package dukes.greeting;
 
 // Give the repository an appropriate CDI scope. Hint: You can also use the pseudo-scope @Dependent
-public class GreetingRepository {
+import jakarta.enterprise.context.Dependent;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+
+import static java.lang.System.Logger;
+import static java.lang.System.Logger.Level.DEBUG;
+
+import module java.base;
+
+/** Greeting Entity Repository with CRUD methods */
+@Dependent
+public class GreetingRepository
+{
+
+    private static final Logger logger =
+        System.getLogger(GreetingRepository.class.getName());
+
+    @PersistenceContext(name = "Greetings")
+    private EntityManager em;
 
     /**
-     * Helpful documentation:
-     * https://jakarta.ee/specifications/platform/10/apidocs/jakarta/persistence/entitymanager
+     * Returns all {@link Greetings} in the persistence unit
+     *
+     * @return a list of greetings
      */
+    public List<Greeting> findAll()
+    {
+        logger.log(DEBUG, "Getting All Greetings");
+        final var greetingQuery =
+            em.getCriteriaBuilder().createQuery(Greeting.class);
+        greetingQuery.select(greetingQuery.from(Greeting.class));
+        return em.createQuery(greetingQuery).getResultList();
+    }
 
-    // define an EntityManager
-    // Hint: Use the @PersistenceContext qualifier
-    // Hint: Check the persistence.xml file for the unitName
+    /**
+     * Save the {@link Greeting} instance to the persistence unit
+     *
+     * @param greeting the instance to be persisted
+     * @return the successfully saved instance
+     */
+    public Greeting saveGreeting(Greeting greeting)
+    {
+        logger.log(DEBUG, "Persisting %s Greeting".formatted(greeting.getMessage()));
+        em.persist(greeting);
+        return greeting;
+    }
 
-    // Create a method that retrieves all greetings from the database. Return type should be List<Greeting>
-
-    // Hint: Check out the Criteria Language for building queries
-    // CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-    // cq.select(cq.from(Greeting.class));
-    // return em.createQuery(cq).getResultList();
-
-    // Create a method called saveGreeting that persists a greeting to the database
-    // Hint: Use the persist(Object entity)-method on the EntityManager
 }
