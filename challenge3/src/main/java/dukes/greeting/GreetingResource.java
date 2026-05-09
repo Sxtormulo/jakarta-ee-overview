@@ -1,16 +1,31 @@
 package dukes.greeting;
 
-// request scoped
-// set the path to /greeting
-public class GreetingResource {
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+
+/** Restful resource to get {@code GreetingRecord} */
+@RequestScoped
+@Path("greeting")
+public class GreetingResource
+{
+
+    @Inject
+    private GreetingService greetingService;
 
     /**
-     * Helpful documentation:
-     * https://jakarta.ee/specifications/platform/10/apidocs/jakarta/ws/rs/package-summary.html
+     * Returns a {@code GreetingRecord}
+     *
+     * @return a Greeting in json form
      */
-
-    // Inject the GreetingsService
-
-    // Add a method that responds to a HTTP GET and returns a greeting record received from the GreetingService
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public GreetingRecord getGreeting()
+    {
+        return greetingService.generateGreeting();
+    }
 
 }
