@@ -1,14 +1,11 @@
 package dukes.greeting;
 
-// Set the application path to ""
-public class GreetingApplication {
-    // Hint: This should be a Jakarta REST Application
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
 
-    /**
-     * Helpful documentation:
-     * https://jakarta.ee/specifications/platform/10/apidocs/jakarta/ws/rs/core/application
-     * https://jakarta.ee/specifications/platform/10/apidocs/jakarta/ws/rs/applicationpath
-     *
-     */
+/** Restfull api with path at "/" */
+@ApplicationPath("")
+public class GreetingApplication extends Application
+{
 
 }
